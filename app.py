@@ -4,9 +4,12 @@ APP Flask
 """
 # Imports
 import numpy as np
+import pandas as pd
 from sklearn.metrics import confusion_matrix, make_scorer
 import joblib
-from flask import Flask, request, jsonify
+from flask import Flask, jsonify, request
+from sklearn.preprocessing import StandardScaler
+from sklearn.impute import SimpleImputer
 
 def cout_metier(y_true, y_pred):
     """Cette fonction calcule le coût métier à partir de la matrice de confusion : 10*FN + FP."""
@@ -26,34 +29,57 @@ def find_best_threshold(estimator, X, y):
             best_threshold, best_score = threshold, score
     return best_threshold, best_score
 
-# Charger le modèle
+# Importer les données clients à prédire 
+data_client = pd.read_csv('./data/test_small.csv')
+# mettre la colonne en index set index
+data_client.set_index('SK_ID_CURR', inplace=True)
+# Sauvegarder les noms des colonnes avant transformation
+column_names = data_client.columns
+
+# Transformer les données - centrer et réduire
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(data_client)
+
+# Transformer les données - Imputer les valeurs manquantes avec la stratégie 'median'
+imputer = SimpleImputer(strategy='median')
+X_scaled_imputed = imputer.fit_transform(X_scaled)
+
+# Transformer X_scaled_imputed en DataFrame et récupérer les colonnes d'origine
+X_scaled_imputed_df = pd.DataFrame(X_scaled_imputed, index=data_client.index, columns=column_names)
+
+# Charger le modèle --> le mettre sur gihub
 model = joblib.load('modele_logRegression.pkl')
 
 # Récupérer le meilleur modèle et la partie classification
 best_model = model.best_estimator_
 logistic_model = best_model.named_steps['classification']
 
-
 # Initialiser l'application Flask
 app = Flask(__name__)
 
 # Définir un endpoint pour la prédiction
-@app.route('/predict', methods=['POST'])
+@app.route('/predict', methods=['GET'])
 def predict():
-    # Récupérer les données envoyées dans la requête POST
-    data = request.get_json(force=True)
+    # Récupérer le client_id depuis les paramètres de la requête
+    client_id = request.args.get('client_id', type=int)
+    
+    if client_id is None:
+        return jsonify({"error": "client_id manquant ou invalide"}), 400
+    
+    # Récupérer les données du client (remplacez X_scaled_imputed par votre DataFrame réel)
+    client = X_scaled_imputed_df.loc[client_id]
     
     # Extraire les caractéristiques et les convertir en tableau NumPy
-    features = np.array(data).reshape(1, -1)
+    features = np.array(client).reshape(1, -1)
     
     # Faire une prédiction
     prediction = logistic_model.predict(features)
     
     # Vérifier le résultat de la prédiction et retourner le message approprié
-    result = "crédit accepté" if int(prediction[0]) == 0 else "crédit refusé"
+    result = "credit accepte" if int(prediction[0]) == 0 else "credit refuse"
     
     # Retourner le résultat sous forme de JSON
-    return jsonify({'prediction': result})
+    return jsonify({f'prediction pour le client {client_id}': result})
 
 # Définir un endpoint de test pour s'assurer que l'API fonctionne
 @app.route('/', methods=['GET'])
