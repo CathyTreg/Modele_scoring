@@ -30,8 +30,8 @@ def find_best_threshold(estimator, X, y):
     return best_threshold, best_score
 
 # Importer les données clients à prédire 
-data_client = pd.read_csv('./data/test_small.csv')
-# mettre la colonne en index set index
+data_client = pd.read_csv('subset_clients.csv')
+# mettre la colonne id client en index
 data_client.set_index('SK_ID_CURR', inplace=True)
 # Sauvegarder les noms des colonnes avant transformation
 column_names = data_client.columns
@@ -47,7 +47,7 @@ X_scaled_imputed = imputer.fit_transform(X_scaled)
 # Transformer X_scaled_imputed en DataFrame et récupérer les colonnes d'origine
 X_scaled_imputed_df = pd.DataFrame(X_scaled_imputed, index=data_client.index, columns=column_names)
 
-# Charger le modèle --> le mettre sur gihub
+# Charger le modèle 
 model = joblib.load('modele_logRegression.pkl')
 
 # Récupérer le meilleur modèle et la partie classification
@@ -66,7 +66,7 @@ def predict():
     if client_id is None:
         return jsonify({"error": "client_id manquant ou invalide"}), 400
     
-    # Récupérer les données du client (remplacez X_scaled_imputed par votre DataFrame réel)
+    # Récupérer les données du client
     client = X_scaled_imputed_df.loc[client_id]
     
     # Extraire les caractéristiques et les convertir en tableau NumPy
