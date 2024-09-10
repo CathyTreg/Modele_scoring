@@ -3,6 +3,5 @@ scikit-learn
 joblib
 flask
 pandas
-random
 requests
 
