@@ -7,23 +7,16 @@ Tests unitaires
 
 import unittest
 import requests
-import random
 import pandas as pd
 
 # URL de ton API
 BASE_API_URL = "https://appcredit-h3emgjc7a5f9d5hp.northeurope-01.azurewebsites.net/predict"
 
-# Charger les clients depuis le fichier subset_clients.csv avec id_client en tant qu'index
-def get_random_client_id():
-    df = pd.read_csv("subset_clients.csv")
-    df.set_index('SK_ID_CURR', inplace=True)  # Lire le fichier CSV et utiliser la colonne id_client comme index
-    return random.choice(df.index.tolist())  # Sélectionner un id_client aléatoire depuis l'index
-
 class TestPredictAPI(unittest.TestCase):
     
     def test_predict_random_client(self):
-        """Test de prédiction pour un client aléatoire du fichier"""
-        id_client = get_random_client_id()  # Récupère un id_client aléatoire
+        """Test de prédiction pour un client du fichier"""
+        id_client = 144092
         url = f"{BASE_API_URL}?client_id={id_client}"  # Construire l'URL avec le paramètre client_id
         
         # Envoyer une requête GET à l'API
