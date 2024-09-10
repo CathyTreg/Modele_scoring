@@ -5,3 +5,4 @@ flask
 pandas
 unittest
 random
+requests
