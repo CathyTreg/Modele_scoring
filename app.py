@@ -10,24 +10,8 @@ import joblib
 from flask import Flask, jsonify, request
 from sklearn.preprocessing import StandardScaler
 from sklearn.impute import SimpleImputer
-
-def cout_metier(y_true, y_pred):
-    """Cette fonction calcule le coût métier à partir de la matrice de confusion : 10*FN + FP."""
-    tn, fp, fn, tp = confusion_matrix(y_true, y_pred).ravel()
-    return 10 * fn + fp
-
-cout_metier_scorer = make_scorer(cout_metier, greater_is_better=False)
-
-def find_best_threshold(estimator, X, y):
-    """Cette fonction trouve le seuil optimal en testant une gamme de seuils et en choisissant celui avec le score métier le plus bas."""
-    thresholds = np.linspace(0, 1, 101)
-    best_threshold, best_score = 0, float('inf')
-    for threshold in thresholds:
-        y_pred = (estimator.predict_proba(X)[:, 1] >= threshold).astype(int)
-        score = cout_metier(y, y_pred)
-        if score < best_score:
-            best_threshold, best_score = threshold, score
-    return best_threshold, best_score
+from utils import cout_metier
+from utils_threshold import find_best_threshold
 
 # Importer les données clients à prédire 
 data_client = pd.read_csv('subset_clients.csv')
@@ -48,11 +32,7 @@ X_scaled_imputed = imputer.fit_transform(X_scaled)
 X_scaled_imputed_df = pd.DataFrame(X_scaled_imputed, index=data_client.index, columns=column_names)
 
 # Charger le modèle 
-model = joblib.load('modele_logRegression.pkl')
-
-# Récupérer le meilleur modèle et la partie classification
-best_model = model.best_estimator_
-logistic_model = best_model.named_steps['classification']
+logistic_model = joblib.load('logistic_model.pkl')
 
 # Initialiser l'application Flask
 app = Flask(__name__)
