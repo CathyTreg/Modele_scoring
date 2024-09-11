@@ -16,7 +16,7 @@ class TestPredictAPI(unittest.TestCase):
     
     def test_predict_random_client(self):
         """Test de prédiction pour un client du fichier"""
-        id_client = 144092
+        id_client = 208550
         url = f"{BASE_API_URL}?client_id={id_client}"  # Construire l'URL avec le paramètre client_id
         
         # Envoyer une requête GET à l'API
