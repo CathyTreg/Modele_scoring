@@ -1,6 +1,6 @@
 # Prédiction du Défaut de Paiement des Clients
 
-Ce projet permet de prédire une réponse d'acceptation ou de refus d'un client, en fonction de son score de défaut de paiement en utilisant un modèle de machine learning. 
+Ce projet permet de prédire une réponse d'acceptation ou de refus d'un crédit pour un client, en fonction de sa probabilité de défaut de paiement en utilisant un modèle de machine learning. 
 L'application est déployée sur **Azure** et permet d'interagir avec une API pour obtenir des prédictions basées sur les données client.
 
 ## 🛠️ Fonctionnalités
