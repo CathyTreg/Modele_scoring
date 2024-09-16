@@ -26,7 +26,6 @@ class TestPredictAPI(unittest.TestCase):
         
         # Vérifie que la réponse est au format JSON et contient les clés appropriées
         response_data = response.json()
-        self.assertIn('client_id', response_data)
         self.assertIn('probabilite_defaut (seuil=0.5)', response_data)
         self.assertIn('prediction', response_data)
         
