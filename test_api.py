@@ -9,7 +9,7 @@ import unittest
 import requests
 
 # URL de ton API
-BASE_API_URL = "https://appcredit-h3emgjc7a5f9d5hp.northeurope-01.azurewebsites.net/predict"
+BASE_API_URL = "https://webappscoringcredit-gcbhe8axc2exdfge.francecentral-01.azurewebsites.net/predict"
 
 class TestPredictAPI(unittest.TestCase):
     
