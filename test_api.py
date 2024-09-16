@@ -24,13 +24,19 @@ class TestPredictAPI(unittest.TestCase):
         # Vérifie que la requête a réussi
         self.assertEqual(response.status_code, 200)
         
-        # Vérifie que la réponse est au format JSON et contient une clé appropriée
+        # Vérifie que la réponse est au format JSON et contient les clés appropriées
         response_data = response.json()
-        self.assertTrue(any(key.startswith('prediction pour le client') for key in response_data.keys()))
+        self.assertIn('client_id', response_data)
+        self.assertIn('probabilite_defaut (seuil=0.5)', response_data)
+        self.assertIn('prediction', response_data)
         
         # Vérifie que la prédiction est soit "crédit accepté", soit "crédit refusé"
-        prediction = next(iter(response_data.values()))  # Obtenir la première valeur de la réponse
+        prediction = response_data['prediction']
         self.assertIn(prediction, ["credit accepte", "credit refuse"])
+        
+        # Vérifie que 'probabilite_defaut (seuil=0.5)' est une liste de nombres
+        self.assertIsInstance(response_data['probabilite_defaut (seuil=0.5)'], list)
+        self.assertTrue(all(isinstance(x, float) for x in response_data['probabilite_defaut (seuil=0.5)']))
 
 if __name__ == '__main__':
     unittest.main()

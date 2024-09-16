@@ -52,14 +52,24 @@ def predict():
     # Extraire les caractéristiques et les convertir en tableau NumPy
     features = np.array(client).reshape(1, -1)
     
-    # Faire une prédiction
+    # Faire une prédiction de défaut de paiement
     prediction = logistic_model.predict(features)
     
     # Vérifier le résultat de la prédiction et retourner le message approprié
     result = "credit accepte" if int(prediction[0]) == 0 else "credit refuse"
     
+    # La probabilité de défaut
+    probability_class_1 = logistic_model.predict_proba(features)[:, 1]
+    
+    # Convertir la probabilité en liste pour JSON
+    probability_class_1_list = probability_class_1.tolist()
+    
     # Retourner le résultat sous forme de JSON
-    return jsonify({f'prediction pour le client {client_id}': result})
+    return jsonify({
+        'client_id': client_id,
+        'probabilite_defaut (seuil=0.5)': probability_class_1_list,
+        'prediction': result
+    })
 
 # Définir un endpoint de test pour s'assurer que l'API fonctionne
 @app.route('/', methods=['GET'])
