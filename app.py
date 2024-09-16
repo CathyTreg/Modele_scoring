@@ -10,7 +10,8 @@ import joblib
 from flask import Flask, jsonify, request
 from sklearn.preprocessing import StandardScaler
 from sklearn.impute import SimpleImputer
-from ipynb.fs.full.functions import cout_metier, find_best_threshold
+from utils_fonction_cout import cout_metier
+from utils_threshold import find_best_threshold
 
 # Importer les données clients à prédire 
 data_client = pd.read_csv('subset_clients.csv')
