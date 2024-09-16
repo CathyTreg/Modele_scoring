@@ -26,7 +26,7 @@ Voici les fichiers et répertoires les plus importants du projet :
 Le projet est déployé automatiquement sur **Azure** à l'aide de **GitHub Actions**. Cela permet une intégration continue (CI) et un déploiement rapide à chaque commit.
 
 - Vous pouvez accéder à l'API déployée à l'URL suivante : https://webappscoringcredit-gcbhe8axc2exdfge.francecentral-01.azurewebsites.net
-
+- Pour faire une prédiction pour un client, modifiez l'id_client à la fin de l'URL : https://webappscoringcredit-gcbhe8axc2exdfge.francecentral-01.azurewebsites.net/predict?client_id=398791
 
 ## 📈 Modèle de Machine Learning
 
