@@ -1,7 +1,30 @@
-# Prédiction du Défaut de Paiement des Clients
+# Créer une API de scoring crédit et réaliser un DashBoard interactif
 
-Ce projet permet de prédire une réponse d'acceptation ou de refus d'un crédit pour un client, en fonction de sa probabilité de défaut de paiement en utilisant un modèle de machine learning. 
-L'application est déployée sur **Azure** et permet d'interagir avec une API pour obtenir des prédictions basées sur les données client.
+Contexte : L’entreprise « Prêt à dépenser » souhaite déployer un outil de scoring crédit pour calculer la probabilité qu’un client rembourse son crédit, en s’appuyant sur un modèle prédictif et un suivi en temps réel.
+
+Objectif : Mettre en place un modèle de prédiction des risques de faillite client, intégrer ce modèle via une API pour une utilisation dans un système de scoring en production, et déployer un dashboard interactif pour l’analyse des clients.
+
+Tâches :
+-	Développement du modèle de scoring :
+    - créer un modèle de régression logistique pour prédire la probabilité de défaut de paiement des clients ;
+    - Implémenter un suivi de la performance du modèle via la surveillance du Data Drift avec Evidently et l'utilisation de SHAP pour expliciter les décisions du modèle.
+-	Mise en production avec une API :
+    - développer une API REST avec Flask permettant de recevoir des données et renvoyer des prédictions de scoring ;
+    - déployer l'API en continu avec GitHub Actions via Azure WebApp pour garantir la mise à jour automatique du modèle en production ;
+    -	créer des tests unitaires avec Unittest pour assurer la qualité et la stabilité du code via une exécution automatisée lors du déploiement.
+-	Développement d’un Dashboard Interactif :
+    - concevoir un dashboard interactif avec Streamlit permettant aux chargés d’études de visualiser la probabilité de solvabilité d’un client et d’interpréter les résultats du scoring en temps réel ;
+    - mettre en place une interface utilisateur facilitant la compréhension des décisions du modèle grâce à des visualisations et des explications détaillées des prédictions.
+
+Résultats : 
+-	Évaluation en temps réel de la solvabilité des clients, fournissant des informations précises et expliquées à un chargé d’études, ce qui améliore la prise de décision dans l'octroi de crédits.
+-	Grâce à l'intégration d'une approche MLOps, le modèle est facilement évolutif et peut être régulièrement mis à jour pour s'adapter aux nouvelles tendances et comportements clients.
+
+Environnement de travail :
+-	Outils de Développement : Jupyter Notebook, Python (via Anaconda), GitHub Actions
+-	Outils de Machine Learning : Scikit-learn, MLFlow UI, Evidently (Data Drift), SHAP, Smote
+-	Outils de déploiement et visualisation : Flask pour l'API, Azure WebApp, Streamlit pour le dashboard interactif, Unittest pour les tests automatisés.
+
 
 ## 🛠️ Fonctionnalités
 
