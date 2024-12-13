@@ -1,6 +1,6 @@
-# Créer une API de scoring crédit et réaliser un DashBoard interactif
+# Créer une API de scoring crédit et réaliser un DashBoard interactif - API SCORING
 
-Projet Dashboard au lien : https://github.com/CathyTreg/Dashboard_credit
+Vous trouverez la partie Dashboard dans ce repertoire : https://github.com/CathyTreg/Dashboard_credit
 
 Contexte : L’entreprise « Prêt à dépenser » souhaite déployer un outil de scoring crédit pour calculer la probabilité qu’un client rembourse son crédit, en s’appuyant sur un modèle prédictif et un suivi en temps réel.
 
